@@ -32,12 +32,13 @@
               type="text"
               placeholder="Search by name"
               class="input-form"
+              v-model="query"
             />
             <!-- <AppButton> Submit </AppButton> -->
             <button type="button" class="btn btn-primary">Submit</button>
           </div>
           <div class="sorting">
-            <select name="" id="" class="input-form">
+            <select name="" id="" class="input-form" v-model="sorting">
               <option value="">Sort</option>
               <option value="ascending">Ascending</option>
               <option value="descending">descending</option>
@@ -71,7 +72,7 @@
         <div class="pagination">
           <button @click="backPage">prev</button>
           <button
-            v-for="item in Math.ceil(dataFetch.length / pageSize)"
+            v-for="item in Math.ceil(paginatedData.length / pageSize)"
             :key="item"
             @click="() => goToPage(item)"
           >
@@ -100,7 +101,16 @@ import { ref, computed } from "vue";
 // import ModalComponent from "../components/ModalComponent.vue";
 import AppModal from "~/components/AppModal.vue";
 import AppButton from "~/components/AppButton.vue";
+const sorting = defineModel("sorting");
+const query = defineModel("query");
+
 const isModalOpened = ref(false);
+
+console.log(query);
+
+const onchange = () => {
+  console.log(query);
+};
 
 const openModal = (i) => {
   console.log(i);
@@ -117,7 +127,6 @@ const submitHandler = () => {
 const formatDate = (date) => {
   let conversDate = date.split("-").reverse().join("-");
   let newdate = new Date(conversDate);
-  console.log(newdate);
   const month = newdate.toLocaleString("default", { month: "long" });
   const days = newdate.getDate();
   const years = newdate.getFullYear();
@@ -127,45 +136,58 @@ const formatDate = (date) => {
 // pagination
 let page = ref(1);
 let sort = ref("asc");
+// let query =''
 const pageSize = 5;
 const dataFetch = await $fetch(
   "https://seakun-frontend-assessment.vercel.app/data.json"
 );
-let paginatedData = computed(() => 
-  dataFetch
-    .sort(
-      (a, b) =>
-        new Date(a.createdAt.split("-").reverse().join("-")) -
-        new Date(b.createdAt.split("-").reverse().join("-"))
-    )
-    .slice((page.value - 1) * pageSize, page.value * pageSize)
-);
+let paginatedData = computed(() => {
+  let values = dataFetch
+    .filter((item) => {
+      return item.customer.name.toLowerCase().indexOf("john") >= 0;
+    })
+    .sort((a, b) => {
+      if (sorting.value == "ascending") {
+        return (
+          new Date(a.createdAt.split("-").reverse().join("-")) -
+          new Date(b.createdAt.split("-").reverse().join("-"))
+        );
+      } else {
+        return (
+          new Date(b.createdAt.split("-").reverse().join("-")) -
+          new Date(a.createdAt.split("-").reverse().join("-"))
+        );
+      }
+    })
+    .slice((page.value - 1) * pageSize, page.value * pageSize);
+  return values;
+});
 
-const filterSearch = (dt)=>{
-    if (q.value != "") {
-    console.log('query ryn');
-    let query = q.value.toLowerCase();
-    dt.filter((item) => item.customer.name.toLowerCase().indexOf(query) >= 0);
-  }
-  if (sort.value == "asc") {
-    console.log('asc');
-    
-    dt.sort(
-      (a, b) =>
-        new Date(a.createdAt.split("-").reverse().join("-")) -
-        new Date(b.createdAt.split("-").reverse().join("-"))
-    ).slice((page.value - 1) * pageSize, page.value * pageSize);
-  } else {
-    dt.sort(
-      (a, b) =>
-        new Date(b.createdAt.split("-").reverse().join("-")) -
-        new Date(a.createdAt.split("-").reverse().join("-"))
-    );
-  }
-  dt.slice((page.value - 1) * pageSize, page.value * pageSize);
+// const filterSearch = (dt) => {
+//   if (q.value != "") {
+//     console.log("query ryn");
+//     let query = q.value.toLowerCase();
+//     dt.filter((item) => item.customer.name.toLowerCase().indexOf(query.value) >= 0);
+//   }
+//   if (sort.value == "asc") {
+//     console.log("asc");
 
-  return dt
-}
+//     dt.sort(
+//       (a, b) =>
+//         new Date(a.createdAt.split("-").reverse().join("-")) -
+//         new Date(b.createdAt.split("-").reverse().join("-"))
+//     ).slice((page.value - 1) * pageSize, page.value * pageSize);
+//   } else {
+//     dt.sort(
+//       (a, b) =>
+//         new Date(b.createdAt.split("-").reverse().join("-")) -
+//         new Date(a.createdAt.split("-").reverse().join("-"))
+//     );
+//   }
+//   dt.slice((page.value - 1) * pageSize, page.value * pageSize);
+
+//   return dt;
+// };
 // const pagination = (array, page_size, page_number) => {
 //   return array.slice((page_number - 1) * page_size, page_number * page_size);
 // };
