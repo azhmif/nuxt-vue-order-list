@@ -85,16 +85,6 @@ body.dark {
   color: var(--grey-color);
   white-space: nowrap;
 }
-.menu_dahsboard::before {
-  content: "Dashboard";
-}
-.menu_editor::before {
-  content: "Editor";
-}
-.menu_setting::before {
-  content: "Setting";
-}
-
 .menu_items {
   padding: 0;
   list-style: none;
@@ -128,8 +118,6 @@ body.dark {
 .content {
   width: 100%;
   padding: 25px;
-  background-color: transparent;
-  box-shadow: 0 0 2px var(--grey-color-light);
 }
 .form {
   width: 100%;
@@ -146,7 +134,7 @@ body.dark {
   width: 60%;
   padding: 4px 4px;
   margin: 8px 0;
-  box-sizing: border-box;
+  border-radius: 8px;
 }
 .btn {
   margin: 8px;
@@ -168,11 +156,17 @@ body.dark {
   background-color: var(--white-color);
   margin: 25px 0px;
   width: 100%;
+  border-radius: 18px;
+  border: #e9fcf8;
+  border: 2px solid var(--blue-color);
 }
 .card-header {
   padding: 25px;
+  border-radius: 18px 18px 0 0;
+  background-color: #e9fcf8;
+  box-shadow: 0 1.5px var(--blue-color);
+
   display: flex;
-  box-shadow: 0 0 4px var(--grey-color-light);
 }
 .card-title {
   width: 50%;
@@ -187,7 +181,6 @@ body.dark {
 }
 .card-body {
   width: 100%;
-  box-shadow: 0 0 2px var(--grey-color-light);
   display: flex;
   padding-top: 20px;
   padding-bottom: 20px;
@@ -250,6 +243,7 @@ body.dark {
   width: 50%;
 }
 .pagination {
+  font-size: medium;
   text-align: end;
 }
 
@@ -264,15 +258,14 @@ body.dark {
   /* .sidebar-hidden{
     left: -100%;
   } */
-    
-  .sidebar {
-    /* left: -100%; */
-  }
   .content-wrapper {
     margin-top: 90px;
     margin-left: 20px;
     margin-right: 20px;
   }
+}
+
+@media screen and (max-width: 480px) {
   .paket-harga {
     display: grid;
     width: 100%;
@@ -291,5 +284,9 @@ body.dark {
     text-align: end;
     width: 100%;
     margin-right: 10px;
+  }
+
+  .paket-harga {
+    display: flex;
   }
 }
