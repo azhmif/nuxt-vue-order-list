@@ -7,11 +7,13 @@
           style="color: black"
           id="sidebarOpen"
           size="2em"
+          @click="sideBar()"
         />
         <img src="/img/brand_seakun.svg" alt="brand seakun" />
       </div>
     </nav>
-    <nav class="sidebar">
+    <!-- <AppSideBar :class="SideOpen"/> -->
+    <nav class="sidebar " v-if="SideOpen">
       <div class="menu_content">
         <ul class="menu_items">
           <li class="item">
@@ -49,7 +51,7 @@
         <div
           class="card"
           v-for="(data, index) in paginatedData"
-          @click="openModal(index)"
+          @click="openModal(data)"
         >
           <div class="card-header">
             <div class="card-title">
@@ -86,9 +88,10 @@
           @modal-close="closeModal"
           @submit="submitHandler"
           name="first-modal"
+          :data="modalData"
         >
-          <template #header>Custom header</template>
-          <template #content>Custom content</template>
+          <template #order_id>{{ modalData?.orderID }}</template>
+          <template #created_at>{{ modalData?.createdAt }}</template>
           <!-- <template #footer>Custom content</template> -->
         </AppModal>
       </div>
@@ -105,6 +108,8 @@ const sorting = defineModel("sorting");
 const query = defineModel("query");
 
 const isModalOpened = ref(false);
+const SideOpen = ref(true);
+let modalData= null;
 
 console.log(query);
 
@@ -113,11 +118,15 @@ const onchange = () => {
 };
 
 const openModal = (i) => {
-  console.log(i);
+    modalData=i
+  console.log(modalData);
   isModalOpened.value = true;
 };
 const closeModal = () => {
   isModalOpened.value = false;
+};
+const sideBar = () => {
+    SideOpen.value = !SideOpen.value ;
 };
 
 const submitHandler = () => {
@@ -144,7 +153,7 @@ const dataFetch = await $fetch(
 let paginatedData = computed(() => {
   let values = dataFetch
     .filter((item) => {
-      return item.customer.name.toLowerCase().indexOf("john") >= 0;
+      return item.customer.name.toLowerCase().indexOf("") >= 0;
     })
     .sort((a, b) => {
       if (sorting.value == "ascending") {

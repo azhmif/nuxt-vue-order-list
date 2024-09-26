@@ -4,6 +4,7 @@ import { onClickOutside } from "@vueuse/core";
 
 const props = defineProps({
   isOpen: Boolean,
+  modalData: null,
 });
 
 const emit = defineEmits(["modal-close"]);
@@ -11,7 +12,6 @@ const emit = defineEmits(["modal-close"]);
 const target = ref(null);
 onClickOutside(target, () => emit("modal-close"));
 </script>
-
 <template>
   <div v-if="isOpen" class="modal-mask">
     <div class="modal-wrapper">
@@ -23,10 +23,11 @@ onClickOutside(target, () => emit("modal-close"));
           <div class="card">
             <div class="card-header">
               <div class="card-title">
-                <div class="orderId">Order ID : Value</div>
+                <div class="orderId">Order ID : <slot name="order_id">random </slot>
+                </div>
               </div>
               <div class="card-title">
-                <div class="createdAt">Created_at : Value</div>
+                <div class="createdAt">Created_at : <slot name="created_at">random </slot></div>
               </div>
             </div>
             <div class="card-body">
