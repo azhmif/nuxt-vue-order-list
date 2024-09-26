@@ -163,8 +163,8 @@ body.dark {
     
   }
 }
-.btnactive{
-  background-color: var(--grey-color-light);
+.btn-active{
+  background-color: #08a08175;
     
   }
 .card {
@@ -201,6 +201,12 @@ body.dark {
   width: 50%;
   display: grid;
 }
+.detail-akun{
+  align-items: start;
+  padding: 5px 25px;
+  width: 50%;
+  display: grid;
+}
 .label{
   margin-bottom: 5px;
 }
@@ -216,10 +222,14 @@ body.dark {
   display: flex;
 }
 .col-label{
-  width: 30%;
+  width: 45%;
+  display: flex
 }
 .col-value{
-  width: 70%;
+  width: 53%;
+}
+.col-colon{
+  width: 2%;
 }
 .paket-harga{
   width: 50%;
@@ -236,12 +246,14 @@ body.dark {
   align-content: center;
 }
 .body-price{
+  text-align: center;
   align-content: center;
   width: 50%;
 }
 .pagination{
   text-align: end;
 }
+
 @media screen and (max-width: 768px) {
   #sidebarOpen {
     font-size: 25px;
@@ -264,5 +276,17 @@ body.dark {
   }
   .card-body{
     display: grid;
+  }
+  .card-header{
+    display: grid;
+  }
+  .card-title{
+    width: 100%;
+  }
+  .createdAt{
+    margin-top: 15px;
+    text-align: end;
+    width: 100%;
+    margin-right: 10px;
   }
 }

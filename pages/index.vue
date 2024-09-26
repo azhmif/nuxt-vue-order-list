@@ -49,7 +49,7 @@
         <div
           class="card"
           v-for="(data, index) in paginatedData"
-          @click="openModal(index)"
+          @click="openModal(data)"
         >
           <div class="card-header">
             <div class="card-title">
@@ -57,7 +57,7 @@
             </div>
             <div class="card-title">
               <div class="createdAt">
-                Created_at : {{ formatDate(data.createdAt) }}
+                Created At : {{ formatDate(data.createdAt) }}
               </div>
             </div>
           </div>
@@ -118,9 +118,9 @@
           @modal-close="closeModal"
           @submit="submitHandler"
           name="first-modal"
+          :dataModal="dataModal"
         >
-          <template #header>Custom header</template>
-          <template #content>Custom content</template>
+          <template #header>Order Detail</template>
           <!-- <template #footer>Custom content</template> -->
         </AppModal>
       </div>
@@ -137,6 +137,7 @@ const sorting = defineModel("sorting");
 const query = defineModel("query");
 
 const isModalOpened = ref(false);
+const dataModal = ref(Array);
 
 console.log(query);
 
@@ -223,8 +224,8 @@ const onchange = () => {
   console.log(query);
 };
 
-const openModal = (i) => {
-  console.log(i);
+const openModal = (data) => {
+  dataModal.value = data;
   isModalOpened.value = true;
 };
 const closeModal = () => {
