@@ -12,18 +12,7 @@
         <img src="/img/brand_seakun.svg" alt="brand seakun" />
       </div>
     </nav>
-    <!-- <AppSideBar :class="SideOpen"/> -->
-    <nav class="sidebar" v-if="SideOpen">
-      <div class="menu_content">
-        <ul class="menu_items">
-          <li class="item">
-            <div href="#" class="nav_link ">
-              <span class="navlink">Order List</span>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </nav>
+    <AppSideBar v-if="SideOpen" />
 
     <div class="content-wrapper">
       <div class="content">
@@ -58,6 +47,7 @@
           class="card"
           v-for="(data, index) in paginatedData"
           @click="openModal(data)"
+          :key="index"
         >
           <div class="card-header">
             <div class="card-title">
@@ -142,7 +132,6 @@
         <AppModal
           :isOpen="isModalOpened"
           @modal-close="closeModal"
-          @submit="submitHandler"
           name="first-modal"
           :dataModal="dataModal"
         >
@@ -156,16 +145,14 @@
 <script setup>
 import { ref, computed } from "vue";
 // import ModalComponent from "../components/ModalComponent.vue";
-import AppModal from "~/components/AppModal.vue";
 const sorting = defineModel("sorting");
 const query = defineModel("query");
 
 const isModalOpened = ref(false);
 const SideOpen = ref(true);
 const q = ref("");
-const dataModal = ref(Array);
+const dataModal = ref();
 
-console.log(query);
 const formatDate = (date) => {
   let conversDate = date.split("-").reverse().join("-");
   let newdate = new Date(conversDate);
@@ -178,7 +165,6 @@ const sideBar = () => {
   SideOpen.value = !SideOpen.value;
 };
 const getValueSearch = () => {
-  // console.log(q.value.value);
   query.value = q.value.value;
 };
 // pagination
@@ -192,8 +178,6 @@ const dataFetch = await $fetch(
 );
 let countData = computed(() => {
   return dataFetch.filter((item) => {
-    // console.log(query)
-    // console.log(sorting)
     return (
       item.customer.name
         .toLowerCase()
@@ -205,8 +189,6 @@ let countData = computed(() => {
 let paginatedData = computed(() => {
   let values = dataFetch
     .filter((item) => {
-      // console.log(query)
-      // console.log(sorting)
       return (
         item.customer.name
           .toLowerCase()
@@ -257,9 +239,5 @@ const openModal = (data) => {
 };
 const closeModal = () => {
   isModalOpened.value = false;
-};
-
-const submitHandler = () => {
-  //here you do whatever
 };
 </script>

@@ -4,14 +4,10 @@ import { onClickOutside } from "@vueuse/core";
 
 const props = defineProps({
   isOpen: Boolean,
-  dataModal: Array,
+  dataModal: Object,
 });
 
 const emit = defineEmits(["modal-close"]);
-console.log("modal value");
-console.log(props.isOpen);
-console.log(props.dataModal);
-// console.log(dataModal);
 const target = ref(null);
 onClickOutside(target, () => emit("modal-close"));
 
@@ -42,7 +38,7 @@ const rupiah = (number) => {
           <div class="card">
             <div class="card-header">
               <div class="card-title">
-                <div class="orderId">Order ID : {{ dataModal?.id }}</div>
+                <div class="orderId">Order ID : {{ dataModal?.orderID }}</div>
               </div>
               <div class="card-title">
                 <div class="createdAt">

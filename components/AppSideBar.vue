@@ -1,22 +1,14 @@
-
-  
-  <template>
-   <div>
-    <nav :class="['sidebar', isSidebarActive ? '' : 'sidebar-hidden']">
+<template>
+  <nav class="sidebar">
     <div class="menu_content">
       <ul class="menu_items">
         <li class="item">
-          <div href="#" class="nav_link submenu_item">
+          <div href="#" class="nav_link">
             <span class="navlink">Order List</span>
           </div>
         </li>
       </ul>
     </div>
   </nav>
-   </div>
-  </template>
+</template>
 
-<script setup>
-const props = defineProps({isSidebarActive:''})
-
-</script>
