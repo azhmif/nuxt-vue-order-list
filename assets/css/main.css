@@ -9,7 +9,7 @@
   --blue-color: #08a081;
   --grey-color: #707070;
   --grey-color-light: #aaa;
-  --primary-color:#08a081
+  --primary-color: #08a081;
 }
 body {
   background-color: #e7f2fd;
@@ -149,108 +149,107 @@ body.dark {
   box-sizing: border-box;
 }
 .btn {
-  margin: 8px ;
+  margin: 8px;
   padding: 8px 15px;
-  color :var(--white-color);
+  color: var(--white-color);
   border-radius: 10px;
   border: 0;
-
 }
-.btn-primary{
+.btn-primary {
   background-color: var(--primary-color);
-  .active{
-  background-color: var(--grey-color-light);
-    
+  .active {
+    background-color: var(--grey-color-light);
   }
 }
-.btn-active{
+.btn-active {
   background-color: #08a08175;
-    
-  }
+}
 .card {
   background-color: var(--white-color);
   margin: 25px 0px;
   width: 100%;
 }
-.card-header{
+.card-header {
   padding: 25px;
   display: flex;
   box-shadow: 0 0 4px var(--grey-color-light);
 }
-.card-title{
+.card-title {
   width: 50%;
 }
-.createdAt{
+.createdAt {
   text-align: end;
   margin-right: 10px;
 }
-.orderId{
+.orderId {
   text-align: start;
   margin-left: 10px;
 }
-.card-body{
+.card-body {
   width: 100%;
   box-shadow: 0 0 2px var(--grey-color-light);
   display: flex;
   padding-top: 20px;
   padding-bottom: 20px;
 }
-.body-akun{
+.body-akun {
   align-items: start;
   padding: 5px 25px;
   width: 50%;
   display: grid;
 }
-.detail-akun{
+.detail-akun {
   align-items: start;
   padding: 5px 25px;
   width: 50%;
   display: grid;
 }
-.label{
+.label {
   margin-bottom: 5px;
 }
-.text-value{
-  margin-bottom:20px;
+.text-value {
+  margin-bottom: 20px;
 }
-.text-label{
+.text-label {
   color: #aaa;
 }
-.row{
+.row {
   margin: 10px;
   width: 100%;
   display: flex;
 }
-.col-label{
+.col-label {
   width: 45%;
-  display: flex
+  display: flex;
 }
-.col-value{
+.col-value {
   width: 53%;
 }
-.col-colon{
+.col-colon {
+  padding: 4px;
+  margin-right: 4px;
   width: 2%;
 }
-.paket-harga{
+.paket-harga {
   width: 50%;
   border-left: #aaa solid 2px;
   display: flex;
   /* padding: 40px 10px 20px 10px; */
 
-  .label{
+  .label {
     margin-bottom: 5px;
   }
 }
-.body-paket{
+.body-paket {
   width: 50%;
   align-content: center;
 }
-.body-price{
+.body-price {
   text-align: center;
   align-content: center;
   width: 50%;
 }
-.pagination{
+.pagination {
   text-align: end;
 }
 
@@ -270,20 +269,20 @@ body.dark {
     margin-left: 20px;
     margin-right: 20px;
   }
-  .paket-harga{
-    display: flex;
+  .paket-harga {
+    display: grid;
     width: 100%;
   }
-  .card-body{
+  .card-body {
     display: grid;
   }
-  .card-header{
+  .card-header {
     display: grid;
   }
-  .card-title{
+  .card-title {
     width: 100%;
   }
-  .createdAt{
+  .createdAt {
     margin-top: 15px;
     text-align: end;
     width: 100%;

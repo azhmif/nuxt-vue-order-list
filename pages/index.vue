@@ -120,8 +120,7 @@
           name="first-modal"
           :dataModal="dataModal"
         >
-          <template #header>Order Detail</template>
-          <!-- <template #footer>Custom content</template> -->
+          <template #header>Order Detail </template>
         </AppModal>
       </div>
     </div>
@@ -132,7 +131,6 @@
 import { ref, computed } from "vue";
 // import ModalComponent from "../components/ModalComponent.vue";
 import AppModal from "~/components/AppModal.vue";
-import AppButton from "~/components/AppButton.vue";
 const sorting = defineModel("sorting");
 const query = defineModel("query");
 

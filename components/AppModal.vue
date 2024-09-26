@@ -6,28 +6,7 @@ const props = defineProps({
   isOpen: Boolean,
   dataModal: Array,
 });
-// dataModal: {
-//     id: 1,
-//     orderID: "ORD2839823",
-//     customer: {
-//       name: "John Doe",
-//       email: "john@gmail.com",
-//       phoneNumber: "08123456789",
-//     },
-//     provider: {
-//       name: "Netflix",
-//       package: "Paket Family",
-//       expiredAt: "18-12-2021",
-//       price: 30000,
-//     },
-//     payment: {
-//       voucher: "DISCOUNT",
-//       status: "PAID",
-//       date: "18-12-2020",
-//       bank: "BCA",
-//     },
-//     createdAt: "18-12-2020",
-//   },
+
 const emit = defineEmits(["modal-close"]);
 console.log("modal value");
 console.log(props.isOpen);
@@ -43,6 +22,13 @@ const formatDate = (date) => {
   const days = newdate.getDate();
   const years = newdate.getFullYear();
   return days + " " + month + " " + years;
+};
+
+const rupiah = (number) => {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  }).format(number);
 };
 </script>
 
@@ -113,7 +99,9 @@ const formatDate = (date) => {
                     </div>
                   </div>
                 </div>
-                <div class="body-price"></div>
+                <div class="body-price">
+                  {{ rupiah(dataModal.provider.price) }}
+                </div>
               </div>
             </div>
           </div>
@@ -125,12 +113,12 @@ const formatDate = (date) => {
                     <span class="label text-value">Voucher Code</span>
                   </div>
                   <div class="col-colon">
-                    <span class="label text-value">:</span>
+                    <span class="label text-value">: </span>
                   </div>
                   <div class="col-value">
-                    <span class="text-value">{{
-                      dataModal?.payment.voucher
-                    }}</span>
+                    <span class="text-value">
+                      {{ dataModal?.payment.voucher }}</span
+                    >
                   </div>
                 </div>
                 <div class="row">
@@ -138,38 +126,40 @@ const formatDate = (date) => {
                     <span class="label text-value">Payment Status</span> &emsp;:
                   </div>
                   <div class="col-colon">
-                    <span class="label text-value">:</span>
+                    <span class="label text-value">: </span>
                   </div>
                   <div class="col-value">
-                    <span class="text-value">{{
-                      dataModal?.payment.status
-                    }}</span>
+                    <span class="text-value">
+                      {{ dataModal?.payment.status }}</span
+                    >
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-label">
-                    <span class="label text-value">Payment Date</span>:
+                    <span class="label text-value">Payment Date</span>
                   </div>
                   <div class="col-colon">
-                    <span class="label text-value">:</span>
+                    <span class="label text-value">: </span>
                   </div>
                   <div class="col-value">
-                    <span class="text-value">{{
-                      dataModal ? formatDate(dataModal.payment.date) : ""
-                    }}</span>
+                    <span class="text-value">
+                      {{
+                        dataModal ? formatDate(dataModal.payment.date) : ""
+                      }}</span
+                    >
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-label">
-                    <span class="label text-value">Payment Bank</span> &:
+                    <span class="label text-value">Payment Bank</span>
                   </div>
                   <div class="col-colon">
-                    <span class="label text-value">:</span>
+                    <span class="label text-value">: </span>
                   </div>
                   <div class="col-value">
-                    <span class="text-value">{{
-                      dataModal?.payment.bank
-                    }}</span>
+                    <span class="text-value">
+                      {{ dataModal?.payment.bank }}</span
+                    >
                   </div>
                 </div>
               </div>
@@ -185,7 +175,6 @@ const formatDate = (date) => {
     </div>
   </div>
 </template>
-
 <style scoped>
 .modal-mask {
   position: fixed;
@@ -194,6 +183,7 @@ const formatDate = (date) => {
   left: 0;
   width: 100%;
   height: 100%;
+  overflow-y: auto;
   background-color: rgba(0, 0, 0, 0.5);
 }
 .modal-container {
@@ -203,7 +193,6 @@ const formatDate = (date) => {
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-  overflow-y: auto !important;
 }
 .modal-footer {
   text-align: right;
