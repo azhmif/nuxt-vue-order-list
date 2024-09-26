@@ -13,7 +13,7 @@
       </div>
     </nav>
     <!-- <AppSideBar :class="SideOpen"/> -->
-    <nav class="sidebar " v-if="SideOpen">
+    <nav class="sidebar" v-if="SideOpen">
       <div class="menu_content">
         <ul class="menu_items">
           <li class="item">
@@ -149,6 +149,9 @@ const formatDate = (date) => {
   const days = newdate.getDate();
   const years = newdate.getFullYear();
   return days + " " + month + " " + years;
+};
+const sideBar = () => {
+  SideOpen.value = !SideOpen.value;
 };
 
 // pagination
