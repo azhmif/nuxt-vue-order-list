@@ -161,7 +161,7 @@ body.dark {
     background-color: var(--grey-color-light);
   }
 }
-.btn-active {
+.btn-disable {
   background-color: #08a08175;
 }
 .card {

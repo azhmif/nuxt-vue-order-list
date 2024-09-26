@@ -34,10 +34,16 @@
               type="text"
               placeholder="Search by name"
               class="input-form"
-              v-model="query"
+              ref="q"
             />
             <!-- <AppButton> Submit </AppButton> -->
-            <button type="button" class="btn btn-primary">Submit</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              @click.prevent="getValueSearch()"
+            >
+              Submit
+            </button>
           </div>
           <div class="sorting">
             <select name="" id="" class="input-form" v-model="sorting">
@@ -104,16 +110,34 @@
           </div>
         </div>
         <div class="pagination">
-          <button @click="backPage" class="btn btn-primary">prev</button>
+          <button class="btn btn-disable" v-if="page == 1" disabled>
+            prev
+          </button>
+          <button @click="backPage" class="btn btn-primary" v-if="page != 1">
+            prev
+          </button>
           <button
             v-for="item in Math.ceil(countData.length / pageSize)"
             :key="item"
             @click="() => goToPage(item)"
-            :class="page == item ? ['btn btn-active'] : [' btn btn-primary ']"
+            :class="page == item ? ['btn btn-disable'] : [' btn btn-primary ']"
           >
             {{ item }}
           </button>
-          <button @click="nextPage" class="btn btn-primary">next</button>
+          <button
+            class="btn btn-disable"
+            v-if="page == Math.ceil(countData.length / pageSize)"
+            disabled
+          >
+            next
+          </button>
+          <button
+            @click="nextPage"
+            class="btn btn-primary"
+            v-if="page != Math.ceil(countData.length / pageSize)"
+          >
+            next
+          </button>
         </div>
         <AppModal
           :isOpen="isModalOpened"
@@ -138,10 +162,10 @@ const query = defineModel("query");
 
 const isModalOpened = ref(false);
 const SideOpen = ref(true);
+const q = ref("");
 const dataModal = ref(Array);
 
 console.log(query);
-
 const formatDate = (date) => {
   let conversDate = date.split("-").reverse().join("-");
   let newdate = new Date(conversDate);
@@ -153,7 +177,10 @@ const formatDate = (date) => {
 const sideBar = () => {
   SideOpen.value = !SideOpen.value;
 };
-
+const getValueSearch = () => {
+  // console.log(q.value.value);
+  query.value = q.value.value;
+};
 // pagination
 let page = ref(1);
 // let sort = ref("asc");
@@ -210,11 +237,10 @@ const rupiah = (number) => {
 };
 
 const nextPage = () => {
-  if (page.value !== Math.ceil(countData.length / perPage)) {
+  if (page.value !== Math.ceil(countData.length / pageSize)) {
     page.value += 1;
   }
 };
-
 const backPage = () => {
   if (page.value !== 1) {
     page.value -= 1;
@@ -223,9 +249,6 @@ const backPage = () => {
 
 const goToPage = (numPage) => {
   page.value = numPage;
-};
-const onchange = () => {
-  console.log(query);
 };
 
 const openModal = (data) => {
