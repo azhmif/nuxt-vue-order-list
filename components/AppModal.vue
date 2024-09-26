@@ -31,7 +31,6 @@ const rupiah = (number) => {
   }).format(number);
 };
 </script>
-
 <template>
   <div v-if="isOpen" class="modal-mask">
     <div class="modal-wrapper">

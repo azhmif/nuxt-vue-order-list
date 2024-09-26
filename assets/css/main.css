@@ -261,8 +261,12 @@ body.dark {
     cursor: pointer;
     color: var(--grey-color);
   }
-  .sidebar {
+  /* .sidebar-hidden{
     left: -100%;
+  } */
+    
+  .sidebar {
+    /* left: -100%; */
   }
   .content-wrapper {
     margin-top: 90px;

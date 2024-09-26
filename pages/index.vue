@@ -7,11 +7,13 @@
           style="color: black"
           id="sidebarOpen"
           size="2em"
+          @click="sideBar()"
         />
         <img src="/img/brand_seakun.svg" alt="brand seakun" />
       </div>
     </nav>
-    <nav class="sidebar">
+    <!-- <AppSideBar :class="SideOpen"/> -->
+    <nav class="sidebar " v-if="SideOpen">
       <div class="menu_content">
         <ul class="menu_items">
           <li class="item">
@@ -135,6 +137,7 @@ const sorting = defineModel("sorting");
 const query = defineModel("query");
 
 const isModalOpened = ref(false);
+const SideOpen = ref(true);
 const dataModal = ref(Array);
 
 console.log(query);
