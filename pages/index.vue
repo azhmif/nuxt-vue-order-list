@@ -90,12 +90,14 @@
                   </div>
                   <div class="col-value">
                     <span class="text-value"
-                      >Exp{{ formatDate(data.provider.expiredAt) }}</span
+                      >Exp {{ formatDate(data.provider.expiredAt) }}</span
                     >
                   </div>
                 </div>
               </div>
-              <div class="body-price">{{ rupiah(data.provider.price) }}</div>
+              <div class="body-price">
+                {{ formatCurrency(data.provider.price) }}
+              </div>
             </div>
           </div>
         </div>
@@ -144,6 +146,8 @@
 
 <script setup>
 import { ref, computed } from "vue";
+import formatCurrency from "../utils/formatCurrency";
+import formatDate from "../utils/formatDate";
 // import ModalComponent from "../components/ModalComponent.vue";
 const sorting = defineModel("sorting");
 const query = defineModel("query");
@@ -153,14 +157,6 @@ const SideOpen = ref(true);
 const q = ref("");
 const dataModal = ref();
 
-const formatDate = (date) => {
-  let conversDate = date.split("-").reverse().join("-");
-  let newdate = new Date(conversDate);
-  const month = newdate.toLocaleString("default", { month: "long" });
-  const days = newdate.getDate();
-  const years = newdate.getFullYear();
-  return days + " " + month + " " + years;
-};
 const sideBar = () => {
   SideOpen.value = !SideOpen.value;
 };
@@ -210,13 +206,6 @@ let paginatedData = computed(() => {
     });
   return values.slice((page.value - 1) * pageSize, page.value * pageSize);
 });
-
-const rupiah = (number) => {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-  }).format(number);
-};
 
 const nextPage = () => {
   if (page.value !== Math.ceil(countData.length / pageSize)) {

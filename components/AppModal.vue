@@ -1,32 +1,3 @@
-<script setup>
-import { defineProps, defineEmits, ref } from "vue";
-import { onClickOutside } from "@vueuse/core";
-
-const props = defineProps({
-  isOpen: Boolean,
-  dataModal: Object,
-});
-
-const emit = defineEmits(["modal-close"]);
-const target = ref(null);
-onClickOutside(target, () => emit("modal-close"));
-
-const formatDate = (date) => {
-  let conversDate = date.split("-").reverse().join("-");
-  let newdate = new Date(conversDate);
-  const month = newdate.toLocaleString("default", { month: "long" });
-  const days = newdate.getDate();
-  const years = newdate.getFullYear();
-  return days + " " + month + " " + years;
-};
-
-const rupiah = (number) => {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-  }).format(number);
-};
-</script>
 <template>
   <div v-if="isOpen" class="modal-mask">
     <div class="modal-wrapper">
@@ -95,7 +66,7 @@ const rupiah = (number) => {
                   </div>
                 </div>
                 <div class="body-price">
-                  {{ rupiah(dataModal.provider.price) }}
+                  {{ formatCurrency(dataModal.provider.price) }}
                 </div>
               </div>
             </div>
@@ -170,6 +141,21 @@ const rupiah = (number) => {
     </div>
   </div>
 </template>
+<script setup>
+import { defineProps, defineEmits, ref } from "vue";
+import { onClickOutside } from "@vueuse/core";
+import formatCurrency from "../utils/formatCurrency";
+import formatDate from "../utils/formatDate";
+
+const props = defineProps({
+  isOpen: Boolean,
+  dataModal: Object,
+});
+
+const emit = defineEmits(["modal-close"]);
+const target = ref(null);
+onClickOutside(target, () => emit("modal-close"));
+</script>
 <style scoped>
 .modal-mask {
   position: fixed;
