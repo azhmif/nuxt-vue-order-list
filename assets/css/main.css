@@ -158,7 +158,15 @@ body.dark {
 }
 .btn-primary{
   background-color: var(--primary-color);
+  .active{
+  background-color: var(--grey-color-light);
+    
+  }
 }
+.btnactive{
+  background-color: var(--grey-color-light);
+    
+  }
 .card {
   background-color: var(--white-color);
   margin: 25px 0px;
@@ -188,19 +196,47 @@ body.dark {
   padding-bottom: 20px;
 }
 .body-akun{
+  align-items: start;
+  padding: 5px 25px;
   width: 50%;
+  display: grid;
+}
+.label{
+  margin-bottom: 5px;
+}
+.text-value{
+  margin-bottom:20px;
+}
+.text-label{
+  color: #aaa;
+}
+.row{
+  margin: 10px;
+  width: 100%;
+  display: flex;
+}
+.col-label{
+  width: 30%;
+}
+.col-value{
+  width: 70%;
 }
 .paket-harga{
   width: 50%;
-  border-left: #333 solid 2px;
+  border-left: #aaa solid 2px;
   display: flex;
-  padding: 40px 10px 20px 10px;
+  /* padding: 40px 10px 20px 10px; */
 
+  .label{
+    margin-bottom: 5px;
+  }
 }
 .body-paket{
   width: 50%;
+  align-content: center;
 }
 .body-price{
+  align-content: center;
   width: 50%;
 }
 .pagination{
@@ -222,5 +258,11 @@ body.dark {
     margin-left: 20px;
     margin-right: 20px;
   }
-
+  .paket-harga{
+    display: flex;
+    width: 100%;
+  }
+  .card-body{
+    display: grid;
+  }
 }

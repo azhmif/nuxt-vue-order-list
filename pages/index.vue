@@ -62,25 +62,57 @@
             </div>
           </div>
           <div class="card-body">
-            <div class="body-akun">akun</div>
+            <div class="body-akun">
+              <span class="label text-label">Info Akun</span>
+              <span class="text-value">{{ data.customer.name }}</span>
+              <span class="text-value">{{ data.customer.email }}</span>
+              <span class="text-value">{{ data.customer.phoneNumber }}</span>
+            </div>
             <div class="paket-harga">
-              <div class="body-paket">paket</div>
-              <div class="body-price">harga</div>
+              <div class="body-paket">
+                <div class="row">
+                  <div class="col-label">
+                    <span class="label text-label">Provider</span>
+                  </div>
+                  <div class="col-value">
+                    <span class="text-value">{{ data.provider.name }}</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-label">
+                    <span class="label text-label">Paket</span>
+                  </div>
+                  <div class="col-value">
+                    <span class="text-value">{{ data.provider.package }}</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-label">
+                    <span class="label text-label">Exp</span>
+                  </div>
+                  <div class="col-value">
+                    <span class="text-value"
+                      >Exp{{ formatDate(data.provider.expiredAt) }}</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="body-price">{{ rupiah(data.provider.price) }}</div>
             </div>
           </div>
         </div>
         <div class="pagination">
-          <button @click="backPage">prev</button>
+          <button @click="backPage" class="btn btn-primary">prev</button>
           <button
-            v-for="item in Math.ceil(paginatedData.length / pageSize)"
+            v-for="item in Math.ceil(countData.length / pageSize)"
             :key="item"
             @click="() => goToPage(item)"
+            :class="page == item ? ['btn btn-active'] : [' btn btn-primary ']"
           >
             {{ item }}
           </button>
-          <button @click="nextPage">next</button>
+          <button @click="nextPage" class="btn btn-primary">next</button>
         </div>
-
         <AppModal
           :isOpen="isModalOpened"
           @modal-close="closeModal"
@@ -108,6 +140,85 @@ const isModalOpened = ref(false);
 
 console.log(query);
 
+const formatDate = (date) => {
+  let conversDate = date.split("-").reverse().join("-");
+  let newdate = new Date(conversDate);
+  const month = newdate.toLocaleString("default", { month: "long" });
+  const days = newdate.getDate();
+  const years = newdate.getFullYear();
+  return days + " " + month + " " + years;
+};
+
+// pagination
+let page = ref(1);
+// let sort = ref("asc");
+// let query = ref("");
+// let query =''
+const pageSize = 5;
+const dataFetch = await $fetch(
+  "https://seakun-frontend-assessment.vercel.app/data.json"
+);
+let countData = computed(() => {
+  return dataFetch.filter((item) => {
+    // console.log(query)
+    // console.log(sorting)
+    return (
+      item.customer.name
+        .toLowerCase()
+        .indexOf(query.value ? query.value : "") >= 0
+    );
+  });
+});
+
+let paginatedData = computed(() => {
+  let values = dataFetch
+    .filter((item) => {
+      // console.log(query)
+      // console.log(sorting)
+      return (
+        item.customer.name
+          .toLowerCase()
+          .indexOf(query.value ? query.value : "") >= 0
+      );
+    })
+    .sort((a, b) => {
+      if (sorting.value == "ascending") {
+        return (
+          new Date(a.createdAt.split("-").reverse().join("-")) -
+          new Date(b.createdAt.split("-").reverse().join("-"))
+        );
+      } else {
+        return (
+          new Date(b.createdAt.split("-").reverse().join("-")) -
+          new Date(a.createdAt.split("-").reverse().join("-"))
+        );
+      }
+    });
+  return values.slice((page.value - 1) * pageSize, page.value * pageSize);
+});
+
+const rupiah = (number) => {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  }).format(number);
+};
+
+const nextPage = () => {
+  if (page.value !== Math.ceil(countData.length / perPage)) {
+    page.value += 1;
+  }
+};
+
+const backPage = () => {
+  if (page.value !== 1) {
+    page.value -= 1;
+  }
+};
+
+const goToPage = (numPage) => {
+  page.value = numPage;
+};
 const onchange = () => {
   console.log(query);
 };
@@ -122,91 +233,5 @@ const closeModal = () => {
 
 const submitHandler = () => {
   //here you do whatever
-};
-
-const formatDate = (date) => {
-  let conversDate = date.split("-").reverse().join("-");
-  let newdate = new Date(conversDate);
-  const month = newdate.toLocaleString("default", { month: "long" });
-  const days = newdate.getDate();
-  const years = newdate.getFullYear();
-  return days + " " + month + " " + years;
-};
-
-// pagination
-let page = ref(1);
-let sort = ref("asc");
-// let query =''
-const pageSize = 5;
-const dataFetch = await $fetch(
-  "https://seakun-frontend-assessment.vercel.app/data.json"
-);
-let paginatedData = computed(() => {
-  let values = dataFetch
-    .filter((item) => {
-      return item.customer.name.toLowerCase().indexOf("john") >= 0;
-    })
-    .sort((a, b) => {
-      if (sorting.value == "ascending") {
-        return (
-          new Date(a.createdAt.split("-").reverse().join("-")) -
-          new Date(b.createdAt.split("-").reverse().join("-"))
-        );
-      } else {
-        return (
-          new Date(b.createdAt.split("-").reverse().join("-")) -
-          new Date(a.createdAt.split("-").reverse().join("-"))
-        );
-      }
-    })
-    .slice((page.value - 1) * pageSize, page.value * pageSize);
-  return values;
-});
-
-// const filterSearch = (dt) => {
-//   if (q.value != "") {
-//     console.log("query ryn");
-//     let query = q.value.toLowerCase();
-//     dt.filter((item) => item.customer.name.toLowerCase().indexOf(query.value) >= 0);
-//   }
-//   if (sort.value == "asc") {
-//     console.log("asc");
-
-//     dt.sort(
-//       (a, b) =>
-//         new Date(a.createdAt.split("-").reverse().join("-")) -
-//         new Date(b.createdAt.split("-").reverse().join("-"))
-//     ).slice((page.value - 1) * pageSize, page.value * pageSize);
-//   } else {
-//     dt.sort(
-//       (a, b) =>
-//         new Date(b.createdAt.split("-").reverse().join("-")) -
-//         new Date(a.createdAt.split("-").reverse().join("-"))
-//     );
-//   }
-//   dt.slice((page.value - 1) * pageSize, page.value * pageSize);
-
-//   return dt;
-// };
-// const pagination = (array, page_size, page_number) => {
-//   return array.slice((page_number - 1) * page_size, page_number * page_size);
-// };
-
-// const datas = pagination(dataFetch,pageSize,pageNumber)
-
-const nextPage = () => {
-  if (page.value !== Math.ceil(dataFetch.length / perPage)) {
-    page.value += 1;
-  }
-};
-
-const backPage = () => {
-  if (page.value !== 1) {
-    page.value -= 1;
-  }
-};
-
-const goToPage = (numPage) => {
-  page.value = numPage;
 };
 </script>
